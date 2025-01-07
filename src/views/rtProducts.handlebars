@@ -1,0 +1,153 @@
+<img  id="homeIcon" src="../img/home.png" alt="Home">
+<div class="container">
+    <h1>Real Time Products List</h1>
+    <a class="goToCartAnchor" href="cart">
+        <div class="goToCart">
+            <img src="../img/cart.png" alt="cart">
+            <p>Go to cart</p>
+        </div>
+    </a>
+    {{#each products}}
+        <div class="prodRow" id="{{this._id}}">
+            <h3 class="prodRow__title">{{this.title}}</h3>
+            <p class="prodRow__desc">{{this.description}}</p>
+            <p class="prodRow__price">U$S {{this.price}}</p>
+            <img class="prodRow__deleteIcon" src="../img/delete.png" alt="">
+            <img class="prodRow__cartIcon" src="../img/cart.png" alt="">
+        </div>
+    {{/each}}
+</div>
+
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module">
+    
+    const url = ''; // vacío para localhost
+    const options = {};
+    const socketClient = io(url, options);
+    let homeBtn = document.getElementById("homeIcon");
+
+    homeBtn.addEventListener("click",()=>{
+        window.location.href ='/';
+    });
+
+
+    socketClient.on('connect', ()=>{
+        console.log(`socket.io Server connected: ${url}`);
+    });
+
+    let goToCartBtn = document.querySelector('.goToCart');
+    goToCartBtn.addEventListener('click',()=>{
+
+    })
+
+    let deleteIcons = document.querySelectorAll('.prodRow__deleteIcon');
+    for(let i=0; i<deleteIcons.length;i++){
+        deleteIcons[i].addEventListener('click', ()=>{
+            let prodId= deleteIcons[i].parentElement.id;
+            fetch(`${url}/api/products/${prodId}`, {
+                method: 'DELETE',
+                body: '',
+                headers: {
+                    "Content-type":"application/json"
+                }
+            });
+        })
+    }
+
+    let cartIcons = document.querySelectorAll('.prodRow__cartIcon');
+    for(let i=0; i<cartIcons.length;i++){
+        cartIcons[i].addEventListener('click', ()=>{
+            let prodId= cartIcons[i].parentElement.id;
+            fetch(`${url}/api/carts`)
+                .then(res=>res.json())
+                .then(data=>{
+                    let cartId = data.data[0]._id;
+                    fetch(`${url}/api/carts/${cartId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({"_id" : prodId}),
+                        headers: {
+                        "Content-type":"application/json"
+                        }
+                    });
+                });
+        })
+    }
+
+    socketClient.on('refreshNewProd', prod=>{
+        let container = document.querySelector(".container");
+        let prodRow = document.createElement('div');
+        prodRow.classList.add('prodRow');
+        prodRow.setAttribute('id', prod._id)
+        let title = document.createElement('h3');
+        title.classList.add('prodRow__title');
+        title.textContent = prod.title;
+        let desc = document.createElement('p');
+        desc.classList.add('prodRow__desc')
+        desc.textContent = prod.description;
+        let price = document.createElement('p');
+        price.classList.add('prodRow__price');
+        price.textContent = `U$S ${prod.price}`;
+        let deleteIcon = document.createElement('img');
+        deleteIcon.classList.add('prodRow__deleteIcon');
+        deleteIcon.setAttribute('src', '../img/delete.png');
+        deleteIcon.addEventListener('click', ()=>{
+            let prodId= deleteIcon.parentElement.id;
+            fetch(`${url}/api/products/${prodId}`, {
+                method: 'DELETE',
+                body: '',
+                headers: {
+                    "Content-type":"application/json"
+                }
+            });
+        });
+        let cartIcon = document.createElement('img');
+        cartIcon.classList.add('prodRow__cartIcon');
+        cartIcon.setAttribute('src', '../img/cart.png');
+        cartIcon.addEventListener('click', ()=>{
+            let prodId= cartIcons[i].parentElement.id;
+            fetch(`${url}/api/carts`)
+                .then(res=>res.json())
+                .then(data=>{
+                    let cartId = data.data[0]._id;
+                    fetch(`${url}/api/carts/${cartId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({"_id" : prodId}),
+                        headers: {
+                        "Content-type":"application/json"
+                        }
+                    });
+                });
+        })
+
+        prodRow.appendChild(title);
+        prodRow.appendChild(desc);
+        prodRow.appendChild(price);
+        prodRow.appendChild(deleteIcon);
+        prodRow.appendChild(cartIcon);
+        container.appendChild(prodRow);
+
+        Swal.fire({
+            position: "top-end",
+            title: `Now available:  ${prod.title}`,
+            showConfirmButton: false,
+            timer: 1800
+        });
+    })
+
+    socketClient.on('refreshDropProduct', prod=>{
+        
+        let  prodRow = document.getElementById(`${prod._id}`);
+        prodRow.remove();
+        Swal.fire({
+            position: "top-end",
+            title: `Removed:  ${prod.title}`,
+            showConfirmButton: false,
+            timer: 1800
+        });
+
+    })
+
+    
+</script>

@@ -1,0 +1,57 @@
+        <p id="homeLogoutP" >Log out</p>
+        <img id="homeLogout" src="../img/logout.png" alt="">
+<div class="homeContainer">
+    <div class="homeMenuContainer">
+        <h1>Backend 2 #70280</h1>
+        <h3>Agustín Rodríguez</h3>
+
+        <div id="rowCart" class="homeRow">MI CARRITO</div>
+        <div id="rowProducts" class="homeRow">PRODUCTOS</div>
+        <div id="rowCarts" class="homeRow admin">VER TODOS LOS CARRITOS</div>
+        <div id="rowRtProducts" class="homeRow">PRODUCTOS EN TIEMPO REAL</div>
+        <div id="rowAddProd" class="homeRow admin">AGREGAR UN PRODUCTO</div>
+    </div>
+</div>
+
+
+<script type="module">
+    let rowCart = document.getElementById('rowCart');
+    let rowProducts = document.getElementById("rowProducts");
+    let rowCarts = document.getElementById("rowCarts");
+    let rowRtProducts = document.getElementById("rowRtProducts");
+    let rowAddProd = document.getElementById("rowAddProd");
+    let logout = document.getElementById('homeLogout');
+    let url = '';
+
+    logout.addEventListener("click", async()=>{
+        await fetch(`${url}/api/sessions/logout`, {
+                method: 'POST',
+                body: '',
+                headers: {
+                    "Content-type":"application/json"
+                }
+            });
+        window.location.href ='/';
+    })
+
+    rowCart.addEventListener("click",()=>{
+        window.location.href= '/views/cart';
+    })
+
+    rowProducts.addEventListener('click',()=>{
+        window.location.href= '/views';
+    })
+
+    rowCarts.addEventListener('click',()=>{
+        window.location.href= '/api/carts';
+    })
+
+    rowRtProducts.addEventListener('click',()=>{
+        window.location.href= '/views/realtimeproducts';
+    })
+
+    rowAddProd.addEventListener('click',()=>{
+        window.location.href= '/views/addProduct';
+    })
+
+</script>
