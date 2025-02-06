@@ -12,6 +12,7 @@ import prodsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import cookiesRouter from './routes/cookies.router.js';
+import mocksRouter from './routes/mocks.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import pathHandler from './middlewares/pathHandler.mid.js';
 import errorHandler from './middlewares/errorHandler.mid.js';
@@ -40,6 +41,7 @@ app.use('/api/products', prodsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/cookies', cookiesRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/mocks', mocksRouter);
 app.use('/views', viewsRouter);
 app.use('/', homeRouter);
 
