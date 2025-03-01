@@ -16,11 +16,11 @@ import mocksRouter from './routes/mocks.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import pathHandler from './middlewares/pathHandler.mid.js';
 import errorHandler from './middlewares/errorHandler.mid.js';
-
+//import { cpus } from 'os';
 
 //Environment variables
 const {PORT, MONGO_REMOTE_URI, COOKIES_SECRET, MONGO_LOCAL_URI} = envUtil;
-
+//console.log("Nucleos: " +cpus().length)
 //Server Instance
 const app = express();
 const httpServer = app.listen(PORT, ready);
