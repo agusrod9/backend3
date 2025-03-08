@@ -16,6 +16,8 @@ import mocksRouter from './routes/mocks.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import pathHandler from './middlewares/pathHandler.mid.js';
 import errorHandler from './middlewares/errorHandler.mid.js';
+import { specs } from './docs/swagger-options.js';
+import swaggerUiExpress from 'swagger-ui-express';
 //import { cpus } from 'os';
 
 //Environment variables
@@ -36,7 +38,12 @@ app.use(express.static(`${config.dirName}/public`));
 app.use(morgan("dev"));
 app.use(cookieParser(COOKIES_SECRET));
 
-//Routers
+//Routes
+app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+app.use('/docs-json', (req, res)=>{
+    res.setHeader('Content-Type', 'application/json')
+    res.send(specs)
+})
 app.use('/api/products', prodsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/cookies', cookiesRouter);

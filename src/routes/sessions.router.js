@@ -24,7 +24,7 @@ sessionsRouter.post('/online', isOnline, isOnlineResponse);
 sessionsRouter.post('/logout', passport.authenticate('logout', {session: false}) ,logoutResponse);
 sessionsRouter.post('/isadmin', passport.authenticate('isAdmin', {session:false}), isAdminResponse);
 sessionsRouter.post('/verify', verifyCode, verifyCodeResponse);
-sessionsRouter.post('/forgotpassword', sendTokenEmail, sendTokenEmailResponse); //em este endpoint se manda el mail
+sessionsRouter.post('/forgotpassword', sendTokenEmail, sendTokenEmailResponse); //en este endpoint se manda el mail
 sessionsRouter.get('/passwordreset', renderResetPasswordScreen); //a este endpoint llego desde gmail con el link
 sessionsRouter.post('/confirmnewpassword',confirmResetPassword, confirmResetPasswordResponse );
 sessionsRouter.get('/google', passport.authenticate('google', { scope: ['email', 'profile']}));

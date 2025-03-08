@@ -1,0 +1,364 @@
+paths:
+  /api/sessions/register:
+    post:
+      summary: Permite el registro de un nuevo usuario.
+      tags:
+        - Users
+      requestBody:
+        required:  true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/userRegister'
+      responses:
+        "201":
+          description: Usuario registrado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito al crear un usuario nuevo.
+                    value: USER REGISTERED
+                    example: USER REGISTERED
+        "401":
+          description: El usuario ya existe en la base de datos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que el usuario ya estaba registrado previamente.
+                    value: USER ALREADY REGISTERED
+                    example: USER ALREADY REGISTERED
+        "500":
+          description: Error interno del servidor. Ocurrió un problema inesperado en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que se generó un error interno en el servidor.
+                    value: INTERNAL API ERROR
+                    example: INTERNAL API ERROR
+  /api/sessions/login:
+    post:
+      summary: Permite el inicio de sesión de un usuario previamente registrado y verificado.
+      tags:
+        - Users
+      requestBody:
+        required:  true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/userLogin'
+      responses:
+        "200":
+          description: Usuario logueado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito al loguearse.
+                    value: USER LOGGED IN
+                    example: USER LOGGED IN
+        "401":
+          description: Error al loguear el usuario por distintos motivos.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando el motivo del error de autenticación.
+              examples: 
+                UserNotFound:
+                  summary: "Usuario no registrado"
+                  value:
+                    message: "USER NOT FOUND"
+                InvalidCredentials:
+                  summary: "Credenciales incorrectas"
+                  value:
+                    message: "INVALID CREDENTIALS"
+                NotVerifiedUser:
+                  summary: "El usuario no realizó la verificación de correo electrónico"
+                  value:
+                    message: "USER MUST VERIFY MAIL FIRST"
+        "500":
+          description: Error interno del servidor. Ocurrió un problema inesperado en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que se generó un error interno en el servidor.
+                    value: INTERNAL API ERROR
+                    example: INTERNAL API ERROR
+  /api/sessions/online:
+    post:
+      summary: Verifica si hay un usuario logueado actualmente.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Hay un usuario logueado actualmente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito al verificar si hay usuario logueado.
+                    value: USER ONLINE
+                    example: USER ONLINE
+        "401":
+          description: No hay un usuario logueado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que no hay un usuario logueado actualmente.
+                    value: USER IS NOT LOGGED IN
+                    example: USER IS NOT LOGGED IN
+        "500":
+          description: Error interno del servidor. Ocurrió un problema inesperado en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que se generó un error interno en el servidor.
+                    value: INTERNAL API ERROR
+                    example: INTERNAL API ERROR
+  /api/sessions/logout:
+    post:
+      summary: Desloguea al usuario que esté actualmente logueado.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Se deslogueó al usuario correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito al desloguear al usuario actual.
+                    value: USER LOGGED OUT
+                    example: USER LOGGED OUT
+        "500":
+          description: Error interno del servidor. Ocurrió un problema inesperado en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que se generó un error interno en el servidor.
+                    value: INTERNAL API ERROR
+                    example: INTERNAL API ERROR
+  /api/sessions/isAdmin:
+    post:
+      summary: Verifica que el usuario logueado tenga el rol de Administrador.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: El usuario logueado es Administrador.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando que el usuario logueado tiene el rol Administrador.
+                    value: USER IS ADMINISTRATOR
+                    example: USER IS ADMINISTRATOR
+        "403":
+          description: El usuario logueado no es Administrador.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando que el usuario logueado no tiene el rol Administrador.
+                    value: UNAUTHORIZED
+                    example: UNAUTHORIZED
+  /api/sessions/verify:
+    post:
+      summary: Permite a un usuario realizar la verificación de su correo electrónico, mediante un hash enviado en el momento del registro de usuario.
+      tags:
+        - Users
+      requestBody:
+        required:  true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBody/verifyCode'
+      responses:
+        "200":
+          description: Codigo verificado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito al verificar el código.
+                    value: USER VERIFIED
+                    example: USER VERIFIED
+        "401":
+          description: Erro al verificar el código de verificación enviado al momento del registro.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando que el código ingresado no verifica.
+                    value: CODE DOES NOT VERIFY
+                    example: CODE DOES NOT VERIFY
+        "500":
+          description: Error interno del servidor. Ocurrió un problema inesperado en el servidor.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje indicando de que se generó un error interno en el servidor.
+                    value: INTERNAL API ERROR
+                    example: INTERNAL API ERROR
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: Id de usuario generado por Mongo.
+          example: 67a4dc95ea443cd2a73ad746
+        firstName:
+          type: string
+          description: Nombre del Usuario.
+          example: Agustín
+        lastName:
+          type: string
+          description: Apellido del Usuario.
+          example: Rodríguez
+        email:
+          type: string
+          description: Correo electrónico del usuario.
+          example: usuario@mail.com
+        password:
+          type: string
+          description: Contraseña del usuario encriptada.
+          example: $2b$11$2xZlOoIMjbHaamkcBbr50eNHvesz9IylBJfTeAM0iTungXlBGKX5S
+        role:
+          type: string
+          description: Rol del usuario, pudiendo ser USER, ADMIN o PREM.
+          example: ADMIN
+        verifiedUser:
+          type: boolean
+          description: Indica si el usuario ya realizó la verificación por mail requerida para el inicio de sesión.
+          example: true
+      example:
+        _id: 67a4dc95ea443cd2a73ad746
+        firstName: Agustín
+        lastName: Rodríguez
+        email: usuario@mail.com
+        password: $2b$11$2xZlOoIMjbHaamkcBbr90eNHvesz9IylBJfTeAM0iTungXlBGKX5S
+        role: USER
+        verifiedUser: true
+  requestBody:
+    userRegister:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - contactEmail
+        - profilePicture
+        - password
+        - role
+      properties:
+        firstName:
+          type: string
+          description: Nombre del Usuario.
+          example: Agustín
+        lastName:
+          type: string
+          description: Apellido del Usuario.
+          example: Rodríguez
+        email:
+          type: string
+          description: Correo electrónico del usuario.
+          example: usuario@mail.com
+        password:
+          type: string
+          description: Contraseña del usuario sin encriptar.
+          example: pass1234
+        role:
+          type: string
+          description: Rol del usuario, pudiendo ser USER, ADMIN o PREM.
+          example: ADMIN
+        verifiedUser:
+          type: boolean
+          description: Indica si el usuario ya realizó la verificación por mail requerida para el inicio de sesión.
+          example: true
+    userLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Correo electrónico del usuario.
+          example: usuario@mail.com
+        password:
+          type: string
+          description: Contraseña del usuario sin encriptar.
+          example: pass1234
+    verifyCode:
+      type: object
+      required:
+        - email
+        - verificationCode
+      properties:
+        email:
+          type: string
+          description: Correo electrónico del usuario.
+          example: usuario@mail.com
+        verificationCode:
+          type: string
+          description: Código de verificación enviado al mail del usuario al momento del registro.
+          example: c0faa21504f7a1000cf230d0
+

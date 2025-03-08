@@ -11,7 +11,7 @@ Proyecto: Continuación del [proyecto de Backend 2](https://github.com/agusrod9/
 
 
 Entrega Final: <br>
-- <br>
+-Agrego dockerfile, genero la imágen y subo a dockerhub (versión inicial - resubo al finalizar el proyecto)<br>
 <br>
 Comentarios: <br>
 
