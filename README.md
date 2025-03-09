@@ -4,6 +4,8 @@ Programación Backend III: Testing y Escalabilidad Backend 70255<br>
 Proyecto: Continuación del [proyecto de Backend 2](https://github.com/agusrod9/Backend2.git)
 
 -PARA PROBAR: <br>
+-Comando de test --> npm run test
+-Endpoints de documentación: /docs y /docs-json
 -VARIABLES DE ENTORNO Y PROYECTO POSTMAN : https://drive.google.com/drive/folders/1YvCORLJgicKoEHuY4cYXDqb-tlUlI6Ka?usp=sharing<br>
 -Para probar las vistas, ingresar a localhost:8085 - El sistema redirigirá hacia login o register<br>
 -Para poder logearse hay que registrarse con un MAIL REAL, ya que se recibe un link para verificar el usuario.<br>
@@ -11,6 +13,8 @@ Proyecto: Continuación del [proyecto de Backend 2](https://github.com/agusrod9/
 
 
 Entrega Final: <br>
+-Implemento tests funcionales del manager de cart (lo que encuentro análogo a probar adoption como indica la rúbrica)
+-Agrego documentación del router de sessions con Swagger <br>
 -Agrego dockerfile, genero la imágen y subo a dockerhub (versión inicial - resubo al finalizar el proyecto)<br>
 <br>
 Comentarios: <br>

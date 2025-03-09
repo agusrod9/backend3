@@ -1,13 +1,9 @@
 import { Router } from 'express';
-import passport from '../middlewares/passport.mid.js';
 import { readAllCarts, readCartById, createEmptyCart, addProductToCartById, deleteCartById } from '../controllers/carts.controller.js';
 
 
 const router = Router();
-/**
- * 
- * 
- */
+
 router.get('/' ,  readAllCarts)
 router.get('/:cid', readCartById);
 router.post('/', createEmptyCart);
