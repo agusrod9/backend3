@@ -13,7 +13,7 @@ Proyecto: Continuación del [proyecto de Backend 2](https://github.com/agusrod9/
 
 
 Entrega Final: <br>
--Genero la [imágen Docker Final](https://hub.docker.com/r/agusrod9/appbackend3final)
+-Genero la [imágen Docker Final](https://hub.docker.com/r/agusrod9/appbackend3final)<br>
 -Implemento tests funcionales del manager de cart (lo que encuentro análogo a probar adoption como indica la rúbrica)
 -Agrego documentación del router de sessions con Swagger <br>
 -Agrego dockerfile, genero la imágen y subo a dockerhub (versión inicial - resubo al finalizar el proyecto)<br>
